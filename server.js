@@ -13,8 +13,12 @@ app.get('/ui/style.css', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'style.css'));
 });
 
+app.get('/ui/page1.html', function (req, res) {
+  res.sendFile(path.join(__dirname, 'ui', 'page1.html'));
+});
+
 app.get('/page1', function (req, res) {
-  res.send('This is page ONE');
+  res.send('Text Response: This is page ONE');
 });
 
 app.get('/page2', function (req, res) {
