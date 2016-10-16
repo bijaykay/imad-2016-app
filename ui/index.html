@@ -3,31 +3,156 @@
     <head>
       <link href="/ui/style.css" rel="stylesheet" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </head>
 
-    
-    <body>
-        <div class="center">
-            <img src="/ui/madi.png" class="img-medium"/>
-        </div>
-        <br>
-        <div>
-            <table align=center><tr><td class="center text-big bold" style="border:solid 2px;border-color:red">
-            First Webapp. <br>This is <a style="color:blue">Bijay & Shalini</a>.
-            <br>
-            </td></tr>
-            <tr><td>
-            <p>This is a sample line text. This is a sample line text. This is a sample line text.
-            This is a sample line text. This is a sample line text.</p>
-            
-            <p>This is a sample line text. This is a sample line text. This is a sample line text.
-            This is a sample line text. This is a sample line text.</p>
-            
-            <p>This is a sample line text. This is a sample line text. This is a sample line text.
-            This is a sample line text. This is a sample line text.</p>
-            </td></tr></table>
-        </div>
-        <script type="text/javascript" src="/ui/main.js">
-        </script>
-    </body>
+<title>RIBBONS</title>
+<style>
+input {
+    width:30px; height:30px; font-weight:bold; text-align:center
+}
+</style>
+
+<script type="text/javascript">
+
+//var ribbonc=["red","red","red","red", "red","green","green","green","green","green","blue","blue","blue","blue","blue","yellow","yellow","yellow","yellow","white"];
+var ribbonc=["red","red","red","red","green","green","green","green","blue","blue","blue","blue","yellow","yellow","yellow","white"];
+var ribbont=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"," "];
+var wr=0; var wc=0; var ctmr=0; var ctmc=0;
+var gamedone="N"; var maxc=4; var ticker=0;
+
+function ribdom()
+{
+ var rc=""; var rnd=0; var ribbonc2=ribbonc; var ribbont2=ribbont;
+ for(r=1;r<5;r++)
+ {
+  for(c=1;c<(maxc+1);c++)
+  {
+   rc="r"+r+"c"+c;
+   rnd=Math.floor(Math.random() * ribbonc2.length);   
+   document.getElementById(rc).style.backgroundColor=ribbonc2[rnd];
+   document.getElementById(rc).value=ribbont2[rnd];
+   if(ribbonc2[rnd]=="white")
+   { wr=r; wc=c; }
+   ribbonc2.splice(rnd,1);
+   ribbont2.splice(rnd,1);
+  }
+ }
+}
+
+function fres(b)
+{
+ var cc=""; var cct="";
+ var rcnt=1;
+ 
+ ctmr = wr; ctmc = wc;
+     
+ if(b.id=="up")
+ {
+  if(wr<4)
+  {
+   cc=document.getElementById("r"+(wr+1)+"c"+wc).style.backgroundColor;   
+   cct=document.getElementById("r"+(wr+1)+"c"+wc).value;      
+   wr = wr + 1;
+  }
+ }
+
+ if(b.id=="down")
+ {
+  if(wr>1)
+  {
+   cc=document.getElementById("r"+(wr-1)+"c"+wc).style.backgroundColor;
+   cct=document.getElementById("r"+(wr-1)+"c"+wc).value;      
+   wr = wr - 1;
+  }
+ }
+
+ if(b.id=="left")
+ {
+  if(wc<maxc)
+  {
+   cc=document.getElementById("r"+wr+"c"+(wc+1)).style.backgroundColor;   
+   cct=document.getElementById("r"+wr+"c"+(wc+1)).value;   
+   wc = wc + 1;
+  }
+ }
+ 
+ if(b.id=="right")
+ {
+  if(wc>1)
+  {
+   cc=document.getElementById("r"+wr+"c"+(wc-1)).style.backgroundColor;
+   cct=document.getElementById("r"+wr+"c"+(wc-1)).value;      
+   wc = wc - 1;
+  }
+ }
+ 
+ document.getElementById("r"+ctmr+"c"+ctmc).style.backgroundColor=cc;
+ document.getElementById("r"+ctmr+"c"+ctmc).value=cct; 
+ document.getElementById("r"+wr+"c"+wc).style.backgroundColor="white";
+ document.getElementById("r"+wr+"c"+wc).value=""; 
+ 
+ if((wr==4) && (wc==maxc))
+ {
+  rcnt=1;
+  for(r=1;r<5;r++)
+  {
+   for(c=1;c<(maxc+1);c++)
+   {
+    if(document.getElementById("r"+r+"c"+c).value != rcnt)
+    { r=5; break; }
+    else
+     rcnt++;
+   }
+  }
+  //alert("RCNT: "+rcnt);
+  if(rcnt==(maxc*4))
+  {
+   	alert("RIBBONS arranged, Well done! \nRe-shuffle for another game.");
+   //navigator.notification.alert("RIBBONS arranged, Well done! \nRe-shuffle for another game.", null, "RIBBONS", "OK");
+  }     
+ } 
+}
+
+</script>
+</head>
+
+<body bgcolor=black onload="ribdom()" style="font-family:'Arial'">
+<center>
+<table align=center>
+<tr><td><img valign=middle src="ribbons.png"/></td>
+<td  align=right style="color:white;font-size:20pt"><i>............RIBBONS</i></td></tr>
+<tr><td  align=right style="color:white;font-size:9pt">Runaway project by Bijay & Shalini</td></tr>
+</table>
+<hr>
+<p style="color:white;font-size:9pt">Arrange strips as per the sequence numbers in each row</p>
+<table align=center cellpadding="2" cellspacing="2" width=270 bgcolor=black>
+<tr><td colspan=4 align=center><input style="width:120px;height:33px;background-color:pink;font-weight:normal; font-size:9pt" id="shuffle" type=button value="Re-Shuffle" onClick="location.reload(true)"/></td></tr>
+<tr><td colspan=4><br></td></tr>
+<tr align=center><td><input style="background-color:white" id="r1c1" type=label align=center readonly value=""/></td><td><input style="background-color:white" id="r1c2" type=label align=center readonly value=""/></td>
+<td><input style="background-color:white" id="r1c3" type=label align=center readonly value=""/></td><td><input style="background-color:white" id="r1c4" type=label align=center readonly value=""/></td>
+</tr>
+
+<tr align=center><td><input style="background-color:white" id="r2c1" type=label align=center readonly value=""/></td><td><input style="background-color:white" id="r2c2" type=label align=center readonly value=""/></td>
+<td><input style="background-color:white" id="r2c3" type=label align=center readonly value=""/></td><td><input style="background-color:white" id="r2c4" type=label align=center readonly value=""/></td>
+</tr>
+
+<tr align=center><td><input style="background-color:white" id="r3c1" type=label align=center readonly value="" /></td><td><input style="background-color:white" id="r3c2" type=label align=center readonly value=""/></td>
+<td><input style="background-color:white" id="r3c3" type=label align=center readonly value=""/></td><td><input style="background-color:white" id="r3c4" type=label align=center readonly value=""/></td>
+</tr>
+
+<tr align=center><td><input style="background-color:white" id="r4c1" type=label align=center readonly value=""/></td><td><input style="background-color:white" id="r4c2" type=label align=center readonly value=""/></td>
+<td><input style="background-color:white" id="r4c3" type=label align=center readonly value=""/></td><td><input style="background-color:white" id="r4c4" type=label align=center readonly value=""/></td>
+</tr>
+
+</table>
+<br>
+<table align=center cellpadding="2" cellspacing="2">
+<tr><td><input style="background-color:black; border:0pt" type=label align=center readonly value=""/></td><td><input style="width:80px;height:30px" id="up" type=button value="UP" onClick="fres(this);"/></td><td><input style="background-color:black; border:0pt" type=label align=center readonly value=""/></td></tr>
+<tr><td><input style="width:80px;height:30px" id="left" type=button value=" < LEFT " onClick="fres(this);"/></td><td><input style="background-color:black;border:0pt" type=label align=center readonly value=""/></td><td><input style="width:80px;height:30px" id="right" type=button value=" RIGHT > " onClick="fres(this);"/></td></tr>
+<tr><td><input style="background-color:black; border:0pt" type=label align=center readonly value=""/></td><td><input style="width:80px;height:30px" id="down" type=button value="DOWN" onClick="fres(this);"/></td><td><input style="background-color:black; border:0pt" type=label align=center readonly value=""/></td></tr>
+<tr align=center><td colspan=3>
+</td></tr>
+</table>
+</center>
+<hr>
+</body>
 </html>
